@@ -2,7 +2,7 @@ const fs = require('fs')
 
 const skills = ['en', 'es', 'fr', 'de']
 const channels = ['default', 'voice', 'chat', 'sms', 'video']
-const numAgents = 5
+const numAgents = 100
 let agents = []
 
 const generateNum = (min, max) => {  
