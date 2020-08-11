@@ -1,8 +1,6 @@
 const fs = require('fs')
-const request = require('request')
-const accountSid = process.env.ACCOUNT_SID;
-const authToken = process.env.AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+const got = require('got');
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 const loadAgents = () => {
     try {
@@ -15,12 +13,12 @@ const loadAgents = () => {
 }
 
 loadAgents().forEach(element => {
-    client.taskrouter.workspaces(process.env.WORKSPACE_SID)
-                 .workers
-                 .list({friendlyName: element.friendlyName, limit: 1})
-                 .then(workers => {
-                    client.taskrouter.workspaces(process.env.WORKSPACE_SID)
-                    .workers(workers[0].sid)
-                    .remove();
-                 })
+    (async () => {
+        element['action'] = 'delete'
+        const {body} = await got.post('https://auburn-goldfish-8475.twil.io/provision', {
+            json: element,
+            responseType: 'json'
+        });
+        console.log(body);
+    })();
 });
