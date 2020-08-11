@@ -72,6 +72,7 @@ const createChannels = () => {
 
 const createAgents = (agent) => {
     const dataJSON = JSON.stringify(agent)
+    fs.writeFile('agents.json', '', () => {})
     fs.appendFileSync('agents.json',dataJSON)
 }
 
